@@ -32,7 +32,7 @@ export default function Login() {
             <CheckSquare size={28} className="text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900">AttendanceIQ</h1>
-          <p className="text-gray-500 mt-1">Sign in to your account</p>
+          <p className="text-gray-500 mt-1">Sign in to your account...........</p>
         </div>
         <div className="card">
           <form onSubmit={handleSubmit} className="space-y-4">
