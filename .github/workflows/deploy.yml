@@ -42,3 +42,31 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-backend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-backend:${{ github.sha }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/attendance-system
+
+            # 🔥 Clean old images (VERY IMPORTANT)
+            docker system prune -af
+
+            # 🔥 Pull latest images
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/attendance-frontend:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/attendance-backend:latest
+
+            # 🔥 Restart containers properly
+            docker compose down
+            docker compose up -d --build
