@@ -27,18 +27,18 @@ jobs:
         with:
           context: ./frontend
           push: true
-          no-cache: true   # 🔥 IMPORTANT FIX
+          no-cache: true 
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-frontend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-frontend:${{ github.sha }}
 
-      # ✅ Build backend (NO CACHE)
+      # ✅ Build backend 
       - name: Build and push backend
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
-          no-cache: true   # 🔥 IMPORTANT FIX
+          no-cache: true   
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-backend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/attendance-backend:${{ github.sha }}
@@ -60,7 +60,7 @@ jobs:
           script: |
             cd ~/Attendance_system
 
-            # 🔥 Clean old images (VERY IMPORTANT)
+            # 🔥 Clean old images 
             docker system prune -af
 
             # 🔥 Pull latest images
